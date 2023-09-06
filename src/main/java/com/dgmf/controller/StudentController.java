@@ -2,6 +2,7 @@ package com.dgmf.controller;
 
 import com.dgmf.dto.StudentDTO;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -30,5 +31,22 @@ public class StudentController {
         studentDTOS.add(new StudentDTO(6L, "Edmond", "Lopez"));
 
         return studentDTOS;
+    }
+
+    // {id} ==> URI Template Variable
+    // http://localhost:8080/students/7/Howard/Hugues
+    @GetMapping("/students/{id}/{first-name}/{last-name}")
+    public StudentDTO studentPathVariable(
+            @PathVariable("id") Long studentId,
+            @PathVariable("first-name") String studentFirstName,
+            @PathVariable("last-name") String studentLastName
+    ) {
+        StudentDTO studentDTO = StudentDTO.builder()
+                .id(studentId)
+                .firstName(studentFirstName)
+                .lastName(studentLastName)
+                .build();
+
+        return studentDTO;
     }
 }

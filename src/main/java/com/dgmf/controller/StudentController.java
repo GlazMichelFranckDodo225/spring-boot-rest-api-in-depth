@@ -3,6 +3,7 @@ package com.dgmf.controller;
 import com.dgmf.dto.StudentDTO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -49,4 +50,22 @@ public class StudentController {
 
         return studentDTO;
     }
+
+    // Rest API with Request Params
+    // http://localhost:8080/students/query?id=1&firstname=Franck&lastname=Dodo
+    @GetMapping("/students/query")
+    public StudentDTO studentRequestVariable(
+            @RequestParam("id") Long studentId,
+            @RequestParam("firstname") String studentFirstName,
+            @RequestParam("lastname") String studentLastName
+    ) {
+        StudentDTO studentDTO = StudentDTO.builder()
+                .id(studentId)
+                .firstName(studentFirstName)
+                .lastName(studentLastName)
+                .build();
+
+        return studentDTO;
+    }
+
 }

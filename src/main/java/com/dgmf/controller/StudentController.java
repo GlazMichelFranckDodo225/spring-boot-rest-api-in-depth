@@ -80,7 +80,6 @@ public class StudentController {
     }
 
     // Rest API that handles HTTP PUT Request - Updating existing resource
-    // HTTP PUT Request : http://localhost:8080/students/1
     // {id} ==> URI Template variables
     @PutMapping("/students/{id}/update")
     public Student updateStudent(
@@ -94,6 +93,13 @@ public class StudentController {
                 .build();
 
         return student;
+    }
+
+    // Rest API that handles HTTP DELETE Request - Deleting existing resource
+    // {id} ==> URI Template variables
+    @DeleteMapping("/students/{id}/delete")
+    public String deleteStudent(@PathVariable("id") Long studentId) {
+        return "Student with id " + studentId + " Deleted Successfully";
     }
 
 }

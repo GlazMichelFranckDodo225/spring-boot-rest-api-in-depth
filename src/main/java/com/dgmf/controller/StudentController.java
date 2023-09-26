@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequestMapping("/students")
 public class StudentController {
     /*// Rest API that handles GET Request
     // GET Request: http://localhost:8080/student
@@ -58,7 +59,7 @@ public class StudentController {
 
     // Rest API that handles GET Request with ResponseEntity
     // GET Request : http://localhost:8080/students
-    @GetMapping("/students")
+    @GetMapping
     public ResponseEntity<List<Student>> getStudents() {
         List<Student> students = new ArrayList<>();
         students.add(new Student(2L, "Alex", "Gomez"));
@@ -97,7 +98,7 @@ public class StudentController {
     // Rest API that handles GET Request with ResponseEntity
     // {id} ==> URI Template Variable
     // GET Request : http://localhost:8080/students/7/Howard/Hugues
-    @GetMapping("/students/{id}/{first-name}/{last-name}")
+    @GetMapping("/{id}/{first-name}/{last-name}")
     public ResponseEntity<Student> studentPathVariable(
             @PathVariable("id") Long studentId,
             @PathVariable("first-name") String studentFirstName,
@@ -141,7 +142,7 @@ public class StudentController {
     // Rest API with Request Params
     // GET Request :
     // http://localhost:8080/students/query?id=1&firstname=Franck&lastname=Dodo
-    @GetMapping("/students/query")
+    @GetMapping("/query")
     public ResponseEntity<Student> studentRequestVariable(
             @RequestParam("id") Long studentId,
             @RequestParam("firstname") String studentFirstName,
@@ -178,7 +179,7 @@ public class StudentController {
 
     // Rest API that handles POST Request with ResponseEntity
     // Rest API that handles HTTP Post Request - Creating new resource
-    @PostMapping("/students/create")
+    @PostMapping("/create")
     // @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Student> createStudent(@RequestBody Student studentDTO) {
         Student student = Student.builder()
@@ -216,7 +217,7 @@ public class StudentController {
     // Rest API that handles HTTP PUT Request with ResponseEntity - Updating
     // existing resource
     // {id} ==> URI Template variables
-    @PutMapping("/students/{id}/update")
+    @PutMapping("/{id}/update")
     public ResponseEntity<Student> updateStudent(
             @PathVariable("id") Long studentId,
             @RequestBody Student studentRequested
@@ -246,7 +247,7 @@ public class StudentController {
     // Rest API that handles HTTP DELETE Request with ResponseEntity - Deleting
     // existing resource
     // {id} ==> URI Template variables
-    @DeleteMapping("/students/{id}/delete")
+    @DeleteMapping("/{id}/delete")
     public ResponseEntity<String> deleteStudent(
             @PathVariable("id") Long studentId) {
         // return "Student with id " + studentId + " Deleted Successfully";

@@ -1,6 +1,6 @@
 package com.dgmf.controller;
 
-import com.dgmf.entity.Student;
+import com.dgmf.entity.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/students")
-public class StudentController {
+public class UserController {
     /*// Rest API that handles GET Request
     // GET Request: http://localhost:8080/student
     @GetMapping("/student") // http://localhost:8080/student
@@ -27,8 +27,8 @@ public class StudentController {
     // Rest API that handles GET Request with ResponseEntity
     // GET Request: http://localhost:8080/student
     @GetMapping("/student")
-    public ResponseEntity<Student> getStudent() {
-        Student student = Student.builder()
+    public ResponseEntity<User> getStudent() {
+        User student = User.builder()
                 .id(1L)
                 .firstName("Karl-Heinz")
                 .lastName("Rummenigge")
@@ -60,13 +60,13 @@ public class StudentController {
     // Rest API that handles GET Request with ResponseEntity
     // GET Request : http://localhost:8080/students
     @GetMapping
-    public ResponseEntity<List<Student>> getStudents() {
-        List<Student> students = new ArrayList<>();
-        students.add(new Student(2L, "Alex", "Gomez"));
-        students.add(new Student(3L, "Guy", "Stewart"));
-        students.add(new Student(4L, "Francis", "Pedro"));
-        students.add(new Student(5L, "Nolan", "Howard"));
-        students.add(new Student(6L, "Edmond", "Lopez"));
+    public ResponseEntity<List<User>> getStudents() {
+        List<User> students = new ArrayList<>();
+        students.add(new User(2L, "Alex", "Gomez", "alexgomez@gmail.com"));
+        students.add(new User(3L, "Guy", "Stewart", "guystewart@gmail.com"));
+        students.add(new User(4L, "Francis", "Pedro", "francispedro@gmail.com"));
+        students.add(new User(5L, "Nolan", "Howard", "nolanhoward@gmail.com"));
+        students.add(new User(6L, "Edmond", "Lopez", "edmondlopez@gmail.com"));
 
         // return new ResponseEntity<>(students, HttpStatus.OK);
         // return ResponseEntity.ok(students); // "ok" Method with Body
@@ -99,12 +99,12 @@ public class StudentController {
     // {id} ==> URI Template Variable
     // GET Request : http://localhost:8080/students/7/Howard/Hugues
     @GetMapping("/{id}/{first-name}/{last-name}")
-    public ResponseEntity<Student> studentPathVariable(
+    public ResponseEntity<User> studentPathVariable(
             @PathVariable("id") Long studentId,
             @PathVariable("first-name") String studentFirstName,
             @PathVariable("last-name") String studentLastName
     ) {
-        Student student = Student.builder()
+        User student = User.builder()
                 .id(studentId)
                 .firstName(studentFirstName)
                 .lastName(studentLastName)
@@ -143,12 +143,12 @@ public class StudentController {
     // GET Request :
     // http://localhost:8080/students/query?id=1&firstname=Franck&lastname=Dodo
     @GetMapping("/query")
-    public ResponseEntity<Student> studentRequestVariable(
+    public ResponseEntity<User> studentRequestVariable(
             @RequestParam("id") Long studentId,
             @RequestParam("firstname") String studentFirstName,
             @RequestParam("lastname") String studentLastName
     ) {
-        Student student = Student.builder()
+        User student = User.builder()
                 .id(studentId)
                 .firstName(studentFirstName)
                 .lastName(studentLastName)
@@ -181,8 +181,8 @@ public class StudentController {
     // Rest API that handles HTTP Post Request - Creating new resource
     @PostMapping("/create")
     // @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Student> createStudent(@RequestBody Student studentDTO) {
-        Student student = Student.builder()
+    public ResponseEntity<User> createStudent(@RequestBody User studentDTO) {
+        User student = User.builder()
                 .id(studentDTO.getId())
                 .firstName(studentDTO.getFirstName())
                 .lastName(studentDTO.getLastName())
@@ -218,11 +218,11 @@ public class StudentController {
     // existing resource
     // {id} ==> URI Template variables
     @PutMapping("/{id}/update")
-    public ResponseEntity<Student> updateStudent(
+    public ResponseEntity<User> updateStudent(
             @PathVariable("id") Long studentId,
-            @RequestBody Student studentRequested
+            @RequestBody User studentRequested
     ) {
-        Student student = Student.builder()
+        User student = User.builder()
                 .id(studentId)
                 .firstName(studentRequested.getFirstName())
                 .lastName(studentRequested.getLastName())

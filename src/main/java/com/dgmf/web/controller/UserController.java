@@ -24,4 +24,13 @@ public class UserController {
                 userService.createUser(userDtoRequest),
                 HttpStatus.CREATED);
     }
+
+    // Build Get User By Id REST API
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDtoResponse> getUserById(
+            @PathVariable("id") Long userId) {
+        UserDtoResponse userDtoResponse = userService.getUserById(userId);
+
+        return ResponseEntity.ok(userDtoResponse);
+    }
 }

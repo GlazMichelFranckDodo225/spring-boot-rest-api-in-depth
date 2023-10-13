@@ -32,4 +32,17 @@ public class UserServiceImpl implements UserService {
 
         return userDtoResponse;
     }
+
+    @Override
+    public UserDtoResponse getUserById(Long userId) {
+        User user = userRepository.findById(userId).get();
+
+        UserDtoResponse userDtoResponse = UserDtoResponse.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .build();
+
+        return userDtoResponse;
+    }
 }

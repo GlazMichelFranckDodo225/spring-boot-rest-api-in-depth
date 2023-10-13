@@ -6,7 +6,11 @@ import com.dgmf.service.UserService;
 import com.dgmf.web.dto.UserDtoRequest;
 import com.dgmf.web.dto.UserDtoResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -44,5 +48,24 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         return userDtoResponse;
+    }
+
+    @Override
+    public List<UserDtoResponse> getAllUsers() {
+        List<User> users = userRepository.findAll();
+
+        List<UserDtoResponse> userDtos = new ArrayList<>();
+
+        for (User user: users) {
+            UserDtoResponse userDtoResponse = UserDtoResponse.builder()
+                    .firstName(user.getFirstName())
+                    .lastName(user.getLastName())
+                    .email(user.getEmail())
+                    .build();
+
+            userDtos.add(userDtoResponse);
+        }
+
+        return userDtos;
     }
 }

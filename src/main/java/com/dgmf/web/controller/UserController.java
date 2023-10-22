@@ -56,4 +56,14 @@ public class UserController {
                 userDtoRequestId)
         );
     }
+
+    // Build Delete User By Id REST API
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteUserById(@PathVariable("id") Long userDtoRequestId) {
+        userService.deleteUserById(userDtoRequestId);
+
+        return ResponseEntity
+                .ok("User with id : "
+                        + userDtoRequestId + " Deleted Successfully.");
+    }
 }

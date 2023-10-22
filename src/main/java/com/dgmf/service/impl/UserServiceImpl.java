@@ -87,6 +87,11 @@ public class UserServiceImpl implements UserService {
         return userDtoResponse;
     }
 
+    @Override
+    public void deleteUserById(Long userDtoRequestId) {
+        userRepository.deleteById(userDtoRequestId);
+    }
+
     private User mapDtoToUser(UserDtoRequest userDtoRequest) {
         // Convert UserDtoRequest to User
         User user = User.builder()

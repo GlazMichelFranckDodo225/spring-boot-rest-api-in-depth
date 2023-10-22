@@ -6,7 +6,6 @@ import com.dgmf.service.UserService;
 import com.dgmf.web.dto.UserDtoRequest;
 import com.dgmf.web.dto.UserDtoResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -67,5 +66,47 @@ public class UserServiceImpl implements UserService {
         }
 
         return userDtos;
+    }
+
+    @Override
+    public UserDtoResponse updateUser(
+            UserDtoRequest userDtoRequest,
+            Long userDtoRequestId) {
+        User existingUser = userRepository
+                .findById(userDtoRequestId).get();
+
+        existingUser.setFirstName(userDtoRequest.getFirstName());
+        existingUser.setLastName(userDtoRequest.getLastName());
+        existingUser.setEmail(userDtoRequest.getEmail());
+        existingUser.setPassword(userDtoRequest.getPassword());
+
+        User updatedUser = userRepository.save(existingUser);
+
+        UserDtoResponse userDtoResponse = mapUserToDto(updatedUser);
+
+        return userDtoResponse;
+    }
+
+    private User mapDtoToUser(UserDtoRequest userDtoRequest) {
+        // Convert UserDtoRequest to User
+        User user = User.builder()
+                .firstName(userDtoRequest.getFirstName())
+                .lastName(userDtoRequest.getLastName())
+                .email(userDtoRequest.getEmail())
+                .password(userDtoRequest.getPassword())
+                .build();
+
+        return user;
+    }
+
+    private UserDtoResponse mapUserToDto(User user) {
+        // Convert User into UserDtoResponse
+        UserDtoResponse userDtoResponse = UserDtoResponse.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .build();
+
+        return userDtoResponse;
     }
 }

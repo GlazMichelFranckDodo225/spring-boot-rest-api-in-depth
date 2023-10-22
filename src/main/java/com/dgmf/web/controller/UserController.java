@@ -31,16 +31,29 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDtoResponse> getUserById(
             @PathVariable("id") Long userId) {
-        UserDtoResponse userDtoResponse = userService.getUserById(userId);
+        // UserDtoResponse userDtoResponse = userService.getUserById(userId);
+        // return ResponseEntity.ok(userDtoResponse);
 
-        return ResponseEntity.ok(userDtoResponse);
+        return ResponseEntity.ok(userService.getUserById(userId));
     }
 
     // Build Get All Users REST API
     @GetMapping
     public ResponseEntity<List<UserDtoResponse>> getAllUsers() {
-        List<UserDtoResponse> userDtos = userService.getAllUsers();
+        // List<UserDtoResponse> userDtos = userService.getAllUsers();
+        // return ResponseEntity.ok(userDtos);
 
-        return ResponseEntity.ok(userDtos);
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    // Build Update User REST API
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDtoResponse> updateUser(
+            @RequestBody UserDtoRequest userDtoRequest,
+            @PathVariable("id") Long userDtoRequestId) {
+        return ResponseEntity.ok(userService.updateUser(
+                userDtoRequest,
+                userDtoRequestId)
+        );
     }
 }

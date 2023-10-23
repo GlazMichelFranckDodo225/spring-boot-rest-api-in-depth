@@ -1,15 +1,14 @@
 package com.dgmf.service;
 
-import com.dgmf.web.dto.UserDtoRequest;
-import com.dgmf.web.dto.UserDtoResponse;
+import com.dgmf.web.dto.UserDto;
 
 import java.util.List;
 
 public interface UserService {
-    UserDtoResponse createUser(UserDtoRequest userDtoRequest);
-    UserDtoResponse getUserById(Long userId);
-    List<UserDtoResponse> getAllUsers();
-    UserDtoResponse updateUser(
-            UserDtoRequest userDtoRequest, Long userDtoRequestId);
-    void deleteUserById(Long userDtoRequestId);
+    UserDto createUser(UserDto userDto);
+    UserDto getUserById(Long userDtoId);
+    List<UserDto> getAllUsers();
+    UserDto updateUser(
+            UserDto userDto, Long userDtoId);
+    void deleteUserById(Long userDtoId);
 }

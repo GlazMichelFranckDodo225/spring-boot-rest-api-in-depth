@@ -22,8 +22,6 @@ public class User {
     private String lastName;
     @Column(nullable = false, unique = true)
     private String email;
-    @Column(nullable = false)
-    private String password;
     @Column(name = "creation_date", nullable = false)
     // Hibernate will automatically take the current Timestamp of the JVM
     @CreationTimestamp

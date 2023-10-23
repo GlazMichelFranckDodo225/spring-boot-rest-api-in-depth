@@ -3,8 +3,7 @@ package com.dgmf.service.impl;
 import com.dgmf.entity.User;
 import com.dgmf.repository.UserRepository;
 import com.dgmf.service.UserService;
-import com.dgmf.web.dto.UserDtoRequest;
-import com.dgmf.web.dto.UserDtoResponse;
+import com.dgmf.web.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,30 +16,23 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDtoResponse createUser(UserDtoRequest userDTO) {
-        User user = User.builder()
-                .firstName(userDTO.getFirstName())
-                .lastName(userDTO.getLastName())
-                .email(userDTO.getEmail())
-                .password(userDTO.getPassword())
-                .build();
+    public UserDto createUser(UserDto userDTO) {
+        // Convert UserDto into User JPA Entity
+        User user = mapDtoToUser(userDTO);
 
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
-        UserDtoResponse userDtoResponse = UserDtoResponse.builder()
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .email(user.getEmail())
-                .build();
+        // Convert User JPA Entity into UserDto
+        UserDto savedUserDto = mapUserToDto(savedUser);
 
-        return userDtoResponse;
+        return savedUserDto;
     }
 
     @Override
-    public UserDtoResponse getUserById(Long userId) {
+    public UserDto getUserById(Long userId) {
         User user = userRepository.findById(userId).get();
 
-        UserDtoResponse userDtoResponse = UserDtoResponse.builder()
+        UserDto userDtoResponse = UserDto.builder()
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
@@ -50,13 +42,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDtoResponse> getAllUsers() {
+    public List<UserDto> getAllUsers() {
         List<User> users = userRepository.findAll();
 
-        List<UserDtoResponse> userDtos = new ArrayList<>();
+        List<UserDto> userDtos = new ArrayList<>();
 
         for (User user: users) {
-            UserDtoResponse userDtoResponse = UserDtoResponse.builder()
+            UserDto userDtoResponse = UserDto.builder()
                     .firstName(user.getFirstName())
                     .lastName(user.getLastName())
                     .email(user.getEmail())
@@ -69,44 +61,44 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDtoResponse updateUser(
-            UserDtoRequest userDtoRequest,
-            Long userDtoRequestId) {
+    public UserDto updateUser(
+            UserDto UserDto,
+            Long UserDtoId) {
         User existingUser = userRepository
-                .findById(userDtoRequestId).get();
+                .findById(UserDtoId).get();
 
-        existingUser.setFirstName(userDtoRequest.getFirstName());
-        existingUser.setLastName(userDtoRequest.getLastName());
-        existingUser.setEmail(userDtoRequest.getEmail());
-        existingUser.setPassword(userDtoRequest.getPassword());
+        existingUser.setFirstName(UserDto.getFirstName());
+        existingUser.setLastName(UserDto.getLastName());
+        existingUser.setEmail(UserDto.getEmail());
 
         User updatedUser = userRepository.save(existingUser);
 
-        UserDtoResponse userDtoResponse = mapUserToDto(updatedUser);
+        UserDto userDtoResponse = mapUserToDto(updatedUser);
 
         return userDtoResponse;
     }
 
     @Override
-    public void deleteUserById(Long userDtoRequestId) {
-        userRepository.deleteById(userDtoRequestId);
+    public void deleteUserById(Long UserDtoId) {
+        userRepository.deleteById(UserDtoId);
     }
 
-    private User mapDtoToUser(UserDtoRequest userDtoRequest) {
-        // Convert UserDtoRequest to User
+    private User mapDtoToUser(UserDto userDto) {
+        // Convert UserDto to User
         User user = User.builder()
-                .firstName(userDtoRequest.getFirstName())
-                .lastName(userDtoRequest.getLastName())
-                .email(userDtoRequest.getEmail())
-                .password(userDtoRequest.getPassword())
+                .id(userDto.getId())
+                .firstName(userDto.getFirstName())
+                .lastName(userDto.getLastName())
+                .email(userDto.getEmail())
                 .build();
 
         return user;
     }
 
-    private UserDtoResponse mapUserToDto(User user) {
-        // Convert User into UserDtoResponse
-        UserDtoResponse userDtoResponse = UserDtoResponse.builder()
+    private UserDto mapUserToDto(User user) {
+        // Convert User into UserDto
+        UserDto userDtoResponse = UserDto.builder()
+                .id(user.getId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())

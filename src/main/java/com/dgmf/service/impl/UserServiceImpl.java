@@ -33,11 +33,7 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserById(Long userId) {
         User user = userRepository.findById(userId).get();
 
-        UserDto userDtoResponse = UserDto.builder()
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .email(user.getEmail())
-                .build();
+        UserDto userDtoResponse = UserMapper.mapUserToUserDto(user);
 
         return userDtoResponse;
     }

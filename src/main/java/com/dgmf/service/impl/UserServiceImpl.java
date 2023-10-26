@@ -1,6 +1,7 @@
 package com.dgmf.service.impl;
 
 import com.dgmf.entity.User;
+import com.dgmf.mapper.UserMapper;
 import com.dgmf.repository.UserRepository;
 import com.dgmf.service.UserService;
 import com.dgmf.web.dto.UserDto;
@@ -18,12 +19,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto createUser(UserDto userDTO) {
         // Convert UserDto into User JPA Entity
-        User user = mapDtoToUser(userDTO);
+        User user = UserMapper.mapUserDtoToUser(userDTO);
 
         User savedUser = userRepository.save(user);
 
         // Convert User JPA Entity into UserDto
-        UserDto savedUserDto = mapUserToDto(savedUser);
+        UserDto savedUserDto = UserMapper.mapUserToUserDto(savedUser);
 
         return savedUserDto;
     }
@@ -73,7 +74,7 @@ public class UserServiceImpl implements UserService {
 
         User updatedUser = userRepository.save(existingUser);
 
-        UserDto userDtoResponse = mapUserToDto(updatedUser);
+        UserDto userDtoResponse = UserMapper.mapUserToUserDto(updatedUser);
 
         return userDtoResponse;
     }
@@ -81,29 +82,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUserById(Long UserDtoId) {
         userRepository.deleteById(UserDtoId);
-    }
-
-    private User mapDtoToUser(UserDto userDto) {
-        // Convert UserDto to User
-        User user = User.builder()
-                .id(userDto.getId())
-                .firstName(userDto.getFirstName())
-                .lastName(userDto.getLastName())
-                .email(userDto.getEmail())
-                .build();
-
-        return user;
-    }
-
-    private UserDto mapUserToDto(User user) {
-        // Convert User into UserDto
-        UserDto userDtoResponse = UserDto.builder()
-                .id(user.getId())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .email(user.getEmail())
-                .build();
-
-        return userDtoResponse;
     }
 }

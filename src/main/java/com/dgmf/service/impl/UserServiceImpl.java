@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +43,7 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getAllUsers() {
         List<User> users = userRepository.findAll();
 
-        List<UserDto> userDtos = new ArrayList<>();
+        /*List<UserDto> userDtos = new ArrayList<>();
 
         for (User user: users) {
             UserDto userDtoResponse = UserDto.builder()
@@ -52,9 +53,11 @@ public class UserServiceImpl implements UserService {
                     .build();
 
             userDtos.add(userDtoResponse);
-        }
+        }*/
 
-        return userDtos;
+        return users.stream()
+                .map(UserMapper::mapUserToUserDto)
+                .collect(Collectors.toList());
     }
 
     @Override

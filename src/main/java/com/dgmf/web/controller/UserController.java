@@ -71,7 +71,7 @@ public class UserController {
     // Build Exception Handler
     // @ExceptionHandler() ==> To handle specific Exception and
     // sending a custom Response to the Client
-    @ExceptionHandler(ResourceNotFoundException.class)
+    /*@ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorDetails> handleResourceNotFoundException(
             ResourceNotFoundException resourceNotFoundException,
             WebRequest webRequest
@@ -84,5 +84,5 @@ public class UserController {
                 .build();
 
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
-    }
+    }*/
 }

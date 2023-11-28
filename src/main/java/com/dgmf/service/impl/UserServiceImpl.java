@@ -1,6 +1,7 @@
 package com.dgmf.service.impl;
 
 import com.dgmf.entity.User;
+import com.dgmf.exception.EmailAlreadyExistsException;
 import com.dgmf.exception.ResourceNotFoundException;
 import com.dgmf.mapper.AutoUserMapper;
 import com.dgmf.mapper.UserMapper;
@@ -27,6 +28,12 @@ public class UserServiceImpl implements UserService {
 
         // Using ModelMapper API
         // User user = modelMapper.map(userDTO, User.class);
+
+        // Check if User Email already exists into DB
+        Optional<User> foundUserById = userRepository.findByEmail(userDTO.getEmail());
+        if(foundUserById.isPresent()) {
+            throw new EmailAlreadyExistsException("User Email already exists");
+        }
 
         // Using MapStruct API
         User user = AutoUserMapper.MAPPER.mapToUser(userDTO);

@@ -1,17 +1,24 @@
 package com.dgmf.exception;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
+import java.util.*;
 
 // @ControllerAdvice() ==> To handle all Exceptions in
 // a single place
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorDetails> handleResourceNotFoundException(
             ResourceNotFoundException resourceNotFoundException,
@@ -55,5 +62,32 @@ public class GlobalExceptionHandler {
                 .build();
 
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex,
+            HttpHeaders headers,
+            HttpStatusCode status,
+            WebRequest request
+    ) {
+        // To store multiple Error Messages into an Object and Send back this
+        // to the Client
+        Map<String, String> errors = new HashMap<>();
+
+        // Get all the Validation Error Messages from
+        // "MethodArgumentNotValidException" parameter
+        List<ObjectError> errorList = ex.getBindingResult().getAllErrors();
+
+        // Get Fields and Messages from "errorList"
+        errorList.forEach(error -> {
+            String fieldName = ((FieldError) error).getField();
+            String message = error.getDefaultMessage();
+
+            // Add "fieldName" and "message" to the "errors" Map
+            errors.put(fieldName, message);
+        });
+
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 }

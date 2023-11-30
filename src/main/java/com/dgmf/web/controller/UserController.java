@@ -4,6 +4,7 @@ import com.dgmf.exception.ErrorDetails;
 import com.dgmf.exception.ResourceNotFoundException;
 import com.dgmf.service.UserService;
 import com.dgmf.web.dto.UserDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class UserController {
 
     // Build Create User REST API
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
         return new ResponseEntity<>(
                 userService.createUser(userDto),
                 HttpStatus.CREATED);
@@ -49,6 +50,7 @@ public class UserController {
     // Build Update User REST API
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(
+            @Valid
             @RequestBody UserDto userDto,
             @PathVariable("id") Long userDtoId) {
         return ResponseEntity.ok(userService.updateUser(

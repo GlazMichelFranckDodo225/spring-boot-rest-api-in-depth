@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 public class UserDto {
     private Long id;
-    @NotEmpty // Value is not "Null" or "Empty"
+    @NotEmpty(message = "User First Name should not be Null or Empty")
     private String firstName;
-    @NotEmpty
+    @NotEmpty(message = "User Last Name should not be Null or Empty")
     private String lastName;
-    @NotEmpty
-    @Email // Email should be a Valid Email Address
+    @NotEmpty(message = "User Email should not be Null or Empty")
+    @Email(message = "User Email should be a Valid Email Address")
     private String email;
 }

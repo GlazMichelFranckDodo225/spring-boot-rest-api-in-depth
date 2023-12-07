@@ -66,7 +66,7 @@ public class UserController {
         userService.deleteUserById(UserDtoId);
 
         return ResponseEntity
-                .ok("User with id : "
+                .ok("User with id "
                         + UserDtoId + " Deleted Successfully.");
     }
 
